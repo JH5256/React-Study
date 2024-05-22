@@ -46,10 +46,12 @@
         /* &&연산자를 이용한 조건부 엘리먼트 생성 */
         // const element = answer === 1 && <h1>앞으로 점점 더 재미있어질 겁니다~!!!</h1>
         
-        const number = 0;
-        const elemnet = answer === number && <h1>truthy일 때 나오는 태그</h1>
         
-        root.render(element);
+        /* Falsy 값 : null, undefined, 0, NaN, '' */
+        const number = 0;
+        const element = number && <h1>truthy일 때 나오는 태그</h1>
+        
+        root.render(element);       // falsy 값이지만 element로 취급 된다.
     </script>
 
 
