@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        function PropsVerify({name, age, hobbies, address}) {   // attribute형 값 두개와 child 노드
+            
+            return(
+                <>
+                    <h3>제 이름은 {name}입니다. </h3>
+                    <h3>제 나이는 {age}세이고 </h3>
+                    <h3>제 취미는 {hobbies[0]}, {hobbies[1]}입니다.</h3>
+                    <h3>저는 {address}에 삽니다.</h3>
+                </>
+            );
+        }
+
+        PropsVerify.propTypes = {
+            name: PropTypes.string,         // name props의 속성은 string 형이어야 한다.
+            age: PropTypes.number.isRequired,      // age props의 속성은 number 형이면서 반드시 주어져야 한다.
+            hobbies: PropTypes.array,       // hobbies props의 속성은 array 형이어야 한다.
+            address: PropTypes.array
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            [
+                <PropsVerify name="김철수" age={20} hobbies={['축구', '농구']} address={['서울시', '서초구']}></PropsVerify>,
+                <PropsVerify name={1} hobbies={['취미1', '취미2']} address={1}></PropsVerify>,
+                <PropsVerify name="김영희" age={22} hobbies={['달리기', '수영']} address={['서울시', '서초구']}></PropsVerify>
+
+            ]
+        );
+
+    </script>
+
+
+</body>
+</html>
