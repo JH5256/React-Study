@@ -25,11 +25,11 @@
             const [weather, setWeather] = useState({});
             const [wind, setWind] = useState({});
 
-            useEffect(() => {
-                
-                new Promise((resolve) => {
+            /* 위도,경도 알아오기*/
+            function getPosition() {
+
+                return new Promise((resolve) => {
                     
-                    /* 위도,경도 알아오기*/
                     navigator.geolocation.getCurrentPosition(
                         currentPosition => {
     
@@ -47,22 +47,32 @@
     
                     );
 
-                }).then(coords => {
-
-                    /* 날씨 API 요청하기 */
-                    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}`)
-                    .then(res => res.json())
-                    .then(json => {
-                        console.log(json);
-
-                        setCityname(json.name);
-                        setWeather(json.weather[0]);
-                        setWind(json.wind);
-                    });
-
                 })
-                
-            }, []);
+
+            }
+
+            function getWeather(coords) {
+
+                return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}`)
+                        .then(res => res.json());
+            }
+
+
+            useEffect(
+                () => {
+                    const loadData = async () => {
+
+                        const coords = await getPosition();
+                        const result = await getWeather(coords);
+
+                        setCityname(result.name);
+                        setWeather(result.weather[0]);
+                        setWind(result.wind);
+                    }
+
+                    loadData();
+
+                }, [])
 
             return (
                 <div>
