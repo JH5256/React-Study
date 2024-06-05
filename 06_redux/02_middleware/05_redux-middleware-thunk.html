@@ -36,19 +36,20 @@
 
         const thunkMiddleware = ({dispatch, getState}) => next => action => {
             if(typeof action === 'function') {
+                console.log(2);
                 return action(dispatch, getState);
             } 
-
+            console.log(4);
             return next(action);
         };
 
 
         /* 콜백으로 사용할 비동기 함수 (API 호출 로직) */
         const fetchUser = async (dispatch, getState) => {
-
+            console.log(3);
             const userData = await fetch('https://jsonplaceholder.typicode.com/users').then(res => res.json());
 
-            next({ ...action, payload : userData });
+            dispatch({ type : FETCH_DATA, payload : userData });
         }
 
 
@@ -56,6 +57,7 @@
         const reducer = handleActions({
             [FETCH_DATA] : (state, {payload}) => {
 
+                console.log(5);
                 console.log('payload : ', payload);
 
                 return [...payload];
@@ -72,6 +74,7 @@
             const dispatch = useDispatch();
 
             const onClickHandler = () => {
+                console.log(1);
                 dispatch(fetchUser);
                 console.log('users : ', users);
             }
